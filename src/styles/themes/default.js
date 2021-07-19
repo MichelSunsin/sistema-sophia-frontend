@@ -3,6 +3,7 @@ const DefaultTheme = {
     lightBlue: '#19475d',
     blue: '#00334c',
     nude: '#fac0a2',
+    darkNude: '#af8671',
     green: '#028c6a',
     red: '#990f44',
   },

@@ -29,7 +29,7 @@ const Home = () => {
   useEffect(() => {
     async function fetchStudents() {
       try {
-        const response = await fetch('http://localhost:3001/students')
+        const response = await fetch('http://localhost:3001/api/students/list')
         const json = await response.json()
         setStudents(json)
       } catch (error) {}
@@ -89,7 +89,9 @@ const Home = () => {
                       className="action-edit"
                       role="button"
                       onClick={() =>
-                        history.push(`/studentDetails?id=${row.original.id}`)
+                        history.push(
+                          `/studentDetails?matricula=${row.original.matricula}`
+                        )
                       }
                     >
                       Editar
@@ -97,7 +99,7 @@ const Home = () => {
                     <td
                       className="action-remove"
                       role="button"
-                      onClick={() => handleExclusion(row.original.id)}
+                      onClick={() => handleExclusion(row.original.matricula)}
                     >
                       Excluir
                     </td>

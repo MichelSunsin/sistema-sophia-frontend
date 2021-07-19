@@ -5,10 +5,10 @@ import queryString from 'query-string'
 
 import Button from 'components/button'
 
-import { Wrapper, Content } from './styles'
+import { Wrapper, Content, SideContent } from './styles'
 
 const StudentDetails = (props) => {
-  const { id } = queryString.parse(props.location.search)
+  const { matricula } = queryString.parse(props.location.search)
 
   const {
     register,
@@ -18,9 +18,12 @@ const StudentDetails = (props) => {
   } = useForm()
 
   const fetchStudent = useCallback(
-    async (id) => {
+    async (matricula) => {
       try {
-        const response = await fetch(`http://localhost:3001/students/${id}`)
+        const response = await fetch(
+          `http://localhost:3001/api/students/${matricula}`
+        )
+
         const json = await response.json()
         reset(json)
       } catch (error) {
@@ -31,16 +34,17 @@ const StudentDetails = (props) => {
   )
 
   useEffect(() => {
-    if (id) {
-      fetchStudent(id)
+    if (matricula) {
+      fetchStudent(matricula)
     }
-  }, [id, fetchStudent])
+  }, [matricula, fetchStudent])
 
   const onSubmit = async (data) => {
-    const url = id
-      ? `http://localhost:3001/students/${id}`
-      : 'http://localhost:3001/students'
-    const verb = id ? 'PUT' : 'POST'
+    console.log(data)
+    const url = matricula
+      ? `http://localhost:3001/api/students/${matricula}`
+      : 'http://localhost:3001/api/students'
+    const verb = matricula ? 'PUT' : 'POST'
 
     try {
       await fetch(url, {
@@ -52,7 +56,7 @@ const StudentDetails = (props) => {
       })
 
       toast.success(
-        `Registro ${id ? 'atualizado' : 'realizado'} com sucesso!`,
+        `Registro ${matricula ? 'atualizado' : 'realizado'} com sucesso!`,
         {
           position: 'top-center',
         }
@@ -63,11 +67,11 @@ const StudentDetails = (props) => {
   }
 
   return (
-    <Wrapper id={id}>
-      <div className="header">
-        <h2>Cadastro de Aluno</h2>
-      </div>
+    <Wrapper id={matricula}>
       <Content>
+        <div className="header">
+          <h2>Cadastro de Aluno</h2>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control">
             <label htmlFor="nome">Nome do aluno</label>
@@ -93,9 +97,47 @@ const StudentDetails = (props) => {
             />
             {errors.dataNasc && <span>Data de nascimento é obrigatório</span>}
           </div>
-          <Button type="submit">Cadastrar aluno</Button>
+          <div className="form-control">
+            <label htmlFor="turno">Turno</label>
+            <select id="turno" {...register('turno', { required: true })}>
+              <option value="manhã">Manhã</option>
+              <option value="tarde">Tarde</option>
+            </select>
+            {errors.dataNasc && <span>Turno é obrigatório</span>}
+          </div>
+          <div className="form-control">
+            <label htmlFor="turma">Turma</label>
+            <input
+              id="turma"
+              type="text"
+              {...register('turma', { required: true })}
+            />
+            {errors.turma && <span>Turma é obrigatório</span>}
+          </div>
+          <div className="form-control">
+            <label htmlFor="ano">Ano</label>
+            <input
+              id="ano"
+              type="text"
+              placeholder="Ex: 2021"
+              {...register('ano', { required: true })}
+            />
+            {errors.dataNasc && <span>Data de nascimento é obrigatório</span>}
+          </div>
+          <Button type="submit">
+            {matricula ? 'Atualizar aluno' : 'Cadastrar aluno'}
+          </Button>
         </form>
       </Content>
+      {matricula && (
+        <SideContent>
+          <ul>
+            <li className="active">Cadastro de aluno</li>
+            <li>Endereço</li>
+            <li>Responsáveis</li>
+          </ul>
+        </SideContent>
+      )}
     </Wrapper>
   )
 }

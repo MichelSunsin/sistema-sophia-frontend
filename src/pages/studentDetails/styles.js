@@ -1,12 +1,11 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
+  display: flex;
   color: ${({ theme }) => theme.colors.blue};
   width: 50%;
-  padding: 25px;
   margin: 10px auto;
   border-radius: 5px;
-  background-color: ${({ theme }) => theme.colors.nude};
 
   ${(props) =>
     props.id &&
@@ -22,6 +21,9 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   display: flex;
+  background-color: ${({ theme }) => theme.colors.nude};
+  padding: 25px;
+  flex: 1;
   flex-direction: column;
 
   .form-control {
@@ -30,12 +32,33 @@ export const Content = styled.div`
     width: 100%;
     margin-bottom: 10px;
 
-    > input {
+    > input:not([type='date']),
+    select {
       padding: 5px;
+    }
+
+    > input[type='date'] {
+      padding: 3px;
     }
 
     > span {
       color: ${({ theme }) => theme.colors.red};
+    }
+  }
+`
+export const SideContent = styled.div`
+  border-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  li {
+    background-color: ${({ theme }) => theme.colors.darkNude};
+    padding: 10px;
+    color: white;
+    list-style: none;
+
+    &.active {
+      color: ${({ theme }) => theme.colors.blue};
+      background-color: ${({ theme }) => theme.colors.nude};
     }
   }
 `
