@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Content as ParentContent } from 'pages/student/styles'
 
 export const Wrapper = styled.div`
   color: ${({ theme }) => theme.colors.blue};
@@ -13,36 +14,4 @@ export const Wrapper = styled.div`
   }
 `
 
-export const Content = styled.div`
-  & > table {
-    width: 100%;
-    background-color: white;
-    border: 1px solid ${({ theme }) => theme.colors.blue};
-    border-collapse: collapse;
-
-    th,
-    td {
-      padding: 5px;
-
-      &.action-edit,
-      &.action-remove {
-        cursor: pointer;
-
-        :hover {
-          color: white;
-          background-color: ${({ theme }) => theme.colors.lightBlue};
-        }
-      }
-    }
-
-    th {
-      font-weight: initial;
-      color: white;
-      background-color: ${({ theme }) => theme.colors.blue};
-    }
-
-    tbody > tr:nth-child(odd) {
-      background-color: lightgray;
-    }
-  }
-`
+export const Content = styled(ParentContent)``

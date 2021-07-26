@@ -13,7 +13,7 @@ ReactDOM.render(
     <ThemeProvider theme={DefaultTheme}>
       <App />
       <GlobalStyle />
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

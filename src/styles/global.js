@@ -19,9 +19,15 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     border: none;
-    font-size: 1.2em;
+    background: none;
+    font-size: 1em;
     :hover {
       cursor: pointer;
+    }
+
+    &.icon-button {
+      color: ${({ theme }) => theme.colors.blue};
+      font-size: 2em;
     }
   }
 `

@@ -2,7 +2,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Header from 'components/header'
 import Home from './pages/home'
-import StudentDetails from './pages/studentDetails'
+import Student from './pages/student'
+import Responsible from './pages/responsible'
+import Address from './pages/address'
 
 function App() {
   return (
@@ -10,7 +12,9 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/studentDetails" component={StudentDetails} />
+        <Route path="/student" component={Student} />
+        <Route path="/responsible" component={Responsible} />
+        <Route path="/address" component={Address} />
       </Switch>
     </BrowserRouter>
   )

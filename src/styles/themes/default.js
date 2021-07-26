@@ -5,6 +5,7 @@ const DefaultTheme = {
     nude: '#fac0a2',
     darkNude: '#af8671',
     green: '#028c6a',
+    lightRed: '#A32756',
     red: '#990f44',
   },
 }

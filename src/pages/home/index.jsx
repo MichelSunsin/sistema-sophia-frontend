@@ -41,17 +41,28 @@ const Home = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns: tableColumns, data: students })
 
-  const handleExclusion = async (id) => {
+  const handleExclusion = async (matricula) => {
     try {
-      await fetch(`http://localhost:3001/students/${id}`, {
-        method: 'DELETE',
-      })
-      setStudents((prevState) =>
-        prevState.filter((student) => student.id !== id)
+      const response = await fetch(
+        `http://localhost:3001/api/students/${matricula}`,
+        {
+          method: 'DELETE',
+        }
       )
-      toast.success('Aluno removido com sucesso')
-    } catch (error) {
-      toast.error('Não foi possível remover o aluno')
+
+      const responseText = await response.text()
+      if (response.status === 500) {
+        throw responseText
+      }
+
+      setStudents((prevState) =>
+        prevState.filter((student) => student.matricula !== matricula)
+      )
+
+      toast.success(responseText)
+      history.pop()
+    } catch (err) {
+      toast.error(err)
     }
   }
 
@@ -85,23 +96,25 @@ const Home = () => {
                         <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                       )
                     })}
-                    <td
-                      className="action-edit"
-                      role="button"
-                      onClick={() =>
-                        history.push(
-                          `/studentDetails?matricula=${row.original.matricula}`
-                        )
-                      }
-                    >
-                      Editar
+                    <td>
+                      <button
+                        className="action-edit"
+                        onClick={() =>
+                          history.push(
+                            `/student?matricula=${row.original.matricula}`
+                          )
+                        }
+                      >
+                        Editar
+                      </button>
                     </td>
-                    <td
-                      className="action-remove"
-                      role="button"
-                      onClick={() => handleExclusion(row.original.matricula)}
-                    >
-                      Excluir
+                    <td>
+                      <button
+                        className="action-remove"
+                        onClick={() => handleExclusion(row.original.matricula)}
+                      >
+                        Excluir
+                      </button>
                     </td>
                   </tr>
                 )
@@ -120,7 +133,7 @@ const Home = () => {
           >
             Ainda não há nenhum aluno cadastrado.{' '}
           </p>
-          <Link to="studentDetails" style={{ textDecoration: 'underline' }}>
+          <Link to="student" style={{ textDecoration: 'underline' }}>
             Clique aqui
           </Link>{' '}
           para cadastrar um aluno!
